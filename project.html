@@ -1,0 +1,1114 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project</title>
+  <style>
+    @font-face {
+      font-family: 'Stella';
+      src: url('font/Stella Demo.ttf') format('truetype');
+    }
+    @font-face {
+      font-family: 'Brother';
+      src: url('font/Brother DEMO.ttf') format('truetype');
+    }
+    @font-face {
+      font-family: 'New Sun Playful';
+      src: url('font/New Sun Regular.ttf') format('truetype');
+    }
+    @font-face {
+      font-family: 'Blackbone';
+      src: url('font/Blackbone.otf') format('opentype');
+    }
+
+    :root {
+      --cursor-x: 50%;
+      --cursor-y: 50%;
+      --transition-duration: 0.5s;
+      --gold-color: #FFD700;
+      --nav-transition: cubic-bezier(0.33, 1, 0.68, 1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      background: #0f172a;
+      font-family: 'Brother', sans-serif;
+      overflow-x: hidden;
+      color: #fff;
+      padding: 40px;
+      position: relative;
+      cursor: none;
+    }
+
+    .cursor-light {
+      position: fixed;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(
+        circle at center,
+        rgba(72, 73, 232, 0.15) 0%,
+        transparent 70%
+      );
+      border-radius: 50%;
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      left: var(--cursor-x);
+      top: var(--cursor-y);
+      z-index: -1;
+      transition: transform 0.1s ease-out;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(
+        circle at center,
+        rgba(72, 73, 232, 0.05) 0%,
+        transparent 70%
+      );
+      z-index: -2;
+      pointer-events: none;
+      border-radius: 50%;
+    }
+    
+    .logo-container {
+      position: absolute;
+      top: -15px;
+      left: 15px;
+      z-index: 11;
+      opacity: 0;
+      transform: translateY(-30px);
+      transition: all var(--transition-duration) ease-out;
+    }
+    
+    .logo {
+      width: 180px;
+      height: auto;
+      transition: transform 0.3s ease;
+    }
+
+    .logo:hover {
+      transform: scale(1.05);
+    }
+
+    nav {
+      position: absolute;
+      top: 60px;
+      right: 50px;
+      padding: 0;
+      display: flex;
+      gap: 15px;
+      font-family: 'New Sun Playful';
+      font-size: 1.6rem;
+      background: transparent;
+      z-index: 10;
+      opacity: 1;
+      transform: translateY(0px);
+      transition: all var(--transition-duration) ease-out 0.2s;
+    }
+    
+    nav a {
+      color: #ffffff;
+      text-decoration: none;
+      position: relative;
+      padding: 8px 15px;
+      transition: all 0.3s ease;
+    }
+
+    nav a.active {
+      color: var(--gold-color);
+    }
+
+    nav a:hover {
+      color: var(--gold-color);
+    }
+
+    nav a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      width: 0;
+      height: 2px;
+      background: var(--gold-color);
+      transition: all 0.3s ease;
+      transform: translateX(-50%);
+    }
+
+    nav a:hover::after,
+    nav a.active::after {
+      width: 70%;
+    }
+    
+    .indicator {
+      position: absolute;
+      width: 90px;
+      height: 90px;
+      background: url('image/navigasi.png') no-repeat center center;
+      background-size: contain;
+      transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      z-index: 9;
+      pointer-events: none;
+      transform: rotate(0deg);
+      opacity: 0;
+    }
+    
+    .content-wrapper {
+      position: absolute;
+      top: 180px;
+      left: 0;
+      right: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      z-index: 8;
+      padding: 0 80px;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.8s ease-out 0.3s;
+    }
+
+    .content-wrapper.animated {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .project-title {
+      font-family: 'Blackbone';
+      font-size: 5rem;
+      color: var(--gold-color);
+      margin-bottom: 40px;
+      transform: rotate(-5deg);
+      display: inline-block;
+      line-height: 1;
+      transition: all 0.5s ease-out;
+      transform-origin: left center;
+      position: relative;
+      z-index: 1;
+      overflow: visible;
+      width: 100%;
+      text-align: center;
+    }
+
+    .project-title::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #0f172a;
+      transform: scaleX(1);
+      transform-origin: left;
+      animation: typewriter-scale 1.5s ease-out forwards;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    @keyframes typewriter-scale {
+      0% {
+        transform: scaleX(1);
+      }
+      100% {
+        transform: scaleX(0);
+      }
+    }
+
+    .project-title span {
+      display: inline-block;
+      transform: translateY(30px);
+      opacity: 0;
+      animation: titleAppear 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) 1.5s forwards;
+    }
+
+    @keyframes titleAppear {
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    /* Gallery Styles */
+    .gallery-section {
+      width: 100%;
+      margin: 40px 0;
+    }
+
+    .gallery-title {
+      font-family: 'New Sun Playful';
+      font-size: 2.5rem;
+      color: white;
+      margin-bottom: 20px;
+      text-align: center;
+      transform: rotate(-2deg);
+    }
+
+    .gallery-container {
+      width: 100%;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .gallery-track {
+      display: flex;
+      gap: 20px;
+      padding: 20px 0;
+      will-change: transform;
+      transition: transform 0.5s linear;
+    }
+
+    .static-gallery {
+      display: flex;
+      gap: 20px;
+      padding: 20px 0;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .gallery-item {
+      width: 300px;
+      height: 400px;
+      background-size: cover;
+      background-position: center;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+      flex-shrink: 0;
+    }
+
+    .gallery-item:hover {
+      transform: scale(1.05);
+      box-shadow: 0 12px 25px rgba(0, 0, 0, 0.4);
+    }
+
+    .gallery-item::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.3);
+      transition: all 0.3s ease;
+    }
+
+    .gallery-item:hover::after {
+      background: rgba(0, 0, 0, 0.1);
+    }
+
+    .image-title {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      padding: 15px;
+      background: rgba(0, 0, 0, 0.7);
+      color: white;
+      font-family: 'Brother';
+      font-size: 1.2rem;
+      transform: translateY(100%);
+      transition: transform 0.3s ease;
+      z-index: 2;
+    }
+
+    .gallery-item:hover .image-title {
+      transform: translateY(0);
+    }
+
+    .web-item {
+      width: 300px;
+      height: 400px;
+      background-size: cover;
+      background-position: center;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background-color: rgba(255, 215, 0, 0.1);
+      border: 2px solid var(--gold-color);
+    }
+
+    .web-item h3 {
+      font-family: 'New Sun Playful';
+      font-size: 2rem;
+      color: white;
+      margin-bottom: 15px;
+      text-align: center;
+    }
+
+    .web-item p {
+      font-family: 'Brother';
+      font-size: 1rem;
+      color: white;
+      text-align: center;
+      padding: 0 20px;
+    }
+
+    .web-item:hover {
+      transform: scale(1.05);
+      box-shadow: 0 12px 25px rgba(255, 215, 0, 0.2);
+      background-color: rgba(255, 215, 0, 0.2);
+    }
+
+    .image-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.9);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .image-modal.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .modal-image {
+      max-width: 90%;
+      max-height: 90%;
+      object-fit: contain;
+    }
+
+    .close-modal {
+      position: absolute;
+      top: 30px;
+      right: 30px;
+      color: white;
+      font-size: 2rem;
+      cursor: pointer;
+      background: none;
+      border: none;
+    }
+
+    .page-transition {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #0f172a;
+      z-index: 9998;
+      transform: scaleY(0);
+      transform-origin: bottom;
+      transition: transform 0.6s cubic-bezier(0.65, 0, 0.35, 1);
+    }
+
+    .menu-toggle {
+      display: none;
+      position: absolute;
+      top: 30px;
+      right: 20px;
+      width: 40px;
+      height: 40px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      z-index: 12;
+      opacity: 0;
+      transition: opacity var(--transition-duration) ease-out 0.4s;
+    }
+
+    .menu-toggle span {
+      display: block;
+      width: 100%;
+      height: 3px;
+      background: #fff;
+      margin: 6px 0;
+      transition: all 0.3s cubic-bezier(0.77, 0.2, 0.05, 1);
+    }
+
+    /* Mobile Styles */
+    @media (max-width: 768px) {
+      body {
+        padding: 20px;
+        height: auto;
+        min-height: 100vh;
+        overflow-y: auto;
+        cursor: none;
+      }
+      
+      .cursor-light {
+        display: block;
+        width: 300px;
+        height: 300px;
+      }
+      
+      .logo-container {
+        top: 15px;
+        left: 15px;
+      }
+      
+      .logo {
+        width: 100px;
+      }
+      
+      nav {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 70%;
+        height: 100vh;
+        background: #0f172a;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 30px;
+        transition: right 0.5s cubic-bezier(0.77, 0.2, 0.05, 1);
+        z-index: 11;
+        padding-top: 80px;
+        opacity: 1;
+        transform: none;
+        border-left: 2px solid var(--gold-color);
+      }
+
+      nav.active {
+        right: 0;
+        box-shadow: -5px 0 15px rgba(0, 0, 0, 0.3);
+      }
+      
+      nav a {
+        font-size: 1.5rem;
+        padding: 10px 20px;
+        width: 100%;
+        text-align: center;
+      }
+      
+      nav a.active {
+        color: var(--gold-color);
+        font-weight: bold;
+      }
+      
+      .indicator {
+        display: none;
+      }
+
+      .menu-toggle {
+        display: block;
+        opacity: 1;
+      }
+
+      .menu-toggle.active span:nth-child(1) {
+        transform: rotate(45deg) translate(6px, 6px);
+        background: var(--gold-color);
+      }
+
+      .menu-toggle.active span:nth-child(2) {
+        opacity: 0;
+      }
+
+      .menu-toggle.active span:nth-child(3) {
+        transform: rotate(-45deg) translate(6px, -6px);
+        background: var(--gold-color);
+      }
+
+      .content-wrapper {
+        position: relative;
+        top: 120px;
+        left: 0;
+        right: 0;
+        padding: 0 15px;
+      }
+
+      .project-title {
+        font-size: 2.5rem;
+        transform: rotate(-3deg);
+        margin-bottom: 30px;
+      }
+
+      .project-title::after {
+        animation: typewriterMobile 1.2s cubic-bezier(0.77, 0, 0.175, 1) forwards;
+      }
+
+      @keyframes typewriterMobile {
+        from { transform: translateX(-100%) }
+        to { transform: translateX(100%) }
+      }
+
+      .project-title span {
+        animation: titleAppearMobile 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) 1.2s forwards;
+      }
+
+      @keyframes titleAppearMobile {
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+
+      .gallery-section {
+        margin: 30px 0;
+      }
+
+      .gallery-title {
+        font-size: 2rem;
+      }
+
+      .gallery-track {
+        gap: 15px;
+      }
+
+      .gallery-item {
+        width: 250px;
+        height: 350px;
+      }
+
+      .web-item {
+        width: 250px;
+        height: 350px;
+      }
+
+      .image-title {
+        font-size: 1rem;
+        padding: 10px;
+      }
+
+      body::before {
+        width: 300px;
+        height: 300px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .project-title {
+        font-size: 2rem;
+      }
+
+      .project-title::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: #0f172a;
+        pointer-events: none;
+        z-index: 2;
+        transform-origin: left;
+        transform: scaleX(1);
+        animation: typewriterMobile 1.2s ease-out forwards;
+      }
+
+      @keyframes typewriterMobile {
+        from { transform: scaleX(1); }
+        to { transform: scaleX(0); }
+      }
+
+      .project-title span {
+        animation: titleAppearSmallMobile 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) 1s forwards;
+      }
+
+      @keyframes titleAppearSmallMobile {
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+
+      .gallery-item {
+        width: 200px;
+        height: 280px;
+      }
+
+      .web-item {
+        width: 200px;
+        height: 280px;
+      }
+
+      .gallery-title {
+        font-size: 1.8rem;
+      }
+    }
+
+    @media (max-width: 768px) and (orientation: landscape) {
+      .gallery-track {
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-transition" id="pageTransition"></div>
+  <div class="cursor-light" id="cursorLight"></div>
+  <div class="indicator" id="indicator"></div>
+  
+  <div class="logo-container">
+    <img src="image/logo.png" alt="Logo" class="logo">
+  </div>
+  
+  <button class="menu-toggle" id="menuToggle">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+
+  <nav id="navMenu">
+    <a href="index.html">Home</a>
+    <a href="tentang.html">About</a>
+    <a href="project.html" class="active">Project</a>
+    <a href="organisasi.html">Organization</a>
+    <a href="#">Blog</a>
+  </nav>
+
+  <div class="content-wrapper">
+    <h1 class="project-title"><span>My Projects</span></h1>
+    
+    <!-- Poster Gallery (Moving Left) -->
+    <div class="gallery-section">
+      <h2 class="gallery-title">Poster</h2>
+      <div class="gallery-container">
+        <div class="gallery-track" id="galleryTrackPoster">
+          <div class="gallery-item" style="background-image: url('image/poster1.jpg');" data-image="image/poster1.jpg">
+            <div class="image-title">Poster Design 1</div>
+          </div>
+          <div class="gallery-item" style="background-image: url('image/poster2.jpg');" data-image="image/poster2.jpg">
+            <div class="image-title">Poster Design 2</div>
+          </div>
+          <div class="gallery-item" style="background-image: url('image/poster3.jpg');" data-image="image/poster3.jpg">
+            <div class="image-title">Poster Design 3</div>
+          </div>
+          <div class="gallery-item" style="background-image: url('image/poster4.jpg');" data-image="image/poster4.jpg">
+            <div class="image-title">Poster Design 4</div>
+          </div>
+          <div class="gallery-item" style="background-image: url('image/poster5.jpg');" data-image="image/poster5.jpg">
+            <div class="image-title">Poster Design 5</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Infografis Gallery (Moving Right) -->
+    <div class="gallery-section">
+      <h2 class="gallery-title">Infografis</h2>
+      <div class="gallery-container">
+        <div class="gallery-track" id="galleryTrackInfografis">
+          <div class="gallery-item" style="background-image: url('image/infografis5.jpg');" data-image="image/infografis5.jpg">
+            <div class="image-title">Infographic 5</div>
+          </div>
+          <div class="gallery-item" style="background-image: url('image/infografis1.jpg');" data-image="image/infografis1.jpg">
+            <div class="image-title">Infographic 1</div>
+          </div>
+          <div class="gallery-item" style="background-image: url('image/infografis2.jpg');" data-image="image/infografis2.jpg">
+            <div class="image-title">Infographic 2</div>
+          </div>
+          <div class="gallery-item" style="background-image: url('image/infografis3.jpg');" data-image="image/infografis3.jpg">
+            <div class="image-title">Infographic 3</div>
+          </div>
+          <div class="gallery-item" style="background-image: url('image/infografis4.jpg');" data-image="image/infografis4.jpg">
+            <div class="image-title">Infographic 4</div>
+          </div>
+          <div class="gallery-item" style="background-image: url('image/infografis5.jpg');" data-image="image/infografis5.jpg">
+            <div class="image-title">Infographic 5</div>
+          </div>
+          <div class="gallery-item" style="background-image: url('image/infografis1.jpg');" data-image="image/infografis1.jpg">
+            <div class="image-title">Infographic 1</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Logo Gallery (Moving Left) -->
+    <div class="gallery-section">
+      <h2 class="gallery-title">Logo</h2>
+      <div class="gallery-container">
+        <div class="gallery-track" id="galleryTrackLogo">
+          <div class="gallery-item" style="background-image: url('image/logo1.jpg');" data-image="image/logo1.jpg">
+            <div class="image-title">Logo Design 1</div>
+          </div>
+          <div class="gallery-item" style="background-image: url('image/logo2.jpg');" data-image="image/logo2.jpg">
+            <div class="image-title">Logo Design 2</div>
+          </div>
+          <div class="gallery-item" style="background-image: url('image/logo3.jpg');" data-image="image/logo3.jpg">
+            <div class="image-title">Logo Design 3</div>
+          </div>
+          <div class="gallery-item" style="background-image: url('image/logo4.jpg');" data-image="image/logo4.jpg">
+            <div class="image-title">Logo Design 4</div>
+          </div>
+          <div class="gallery-item" style="background-image: url('image/logo5.jpg');" data-image="image/logo5.jpg">
+            <div class="image-title">Logo Design 5</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Desain Baju Gallery (Moving Right) -->
+    <div class="gallery-section">
+      <h2 class="gallery-title">Desain Baju</h2>
+      <div class="gallery-container">
+        <div class="gallery-track" id="galleryTrackBaju">
+          <div class="gallery-item" style="background-image: url('image/baju5.jpg');" data-image="image/baju5.jpg">
+            <div class="image-title">T-Shirt Design 5</div>
+          </div>
+          <div class="gallery-item" style="background-image: url('image/baju1.jpg');" data-image="image/baju1.jpg">
+            <div class="image-title">T-Shirt Design 1</div>
+          </div>
+          <div class="gallery-item" style="background-image: url('image/baju2.jpg');" data-image="image/baju2.jpg">
+            <div class="image-title">T-Shirt Design 2</div>
+          </div>
+          <div class="gallery-item" style="background-image: url('image/baju3.jpg');" data-image="image/baju3.jpg">
+            <div class="image-title">T-Shirt Design 3</div>
+          </div>
+          <div class="gallery-item" style="background-image: url('image/baju4.jpg');" data-image="image/baju4.jpg">
+            <div class="image-title">T-Shirt Design 4</div>
+          </div>
+          <div class="gallery-item" style="background-image: url('image/baju5.jpg');" data-image="image/baju5.jpg">
+            <div class="image-title">T-Shirt Design 5</div>
+          </div>
+          <div class="gallery-item" style="background-image: url('image/baju1.jpg');" data-image="image/baju1.jpg">
+            <div class="image-title">T-Shirt Design 1</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Backdrop Gallery (Moving Left) -->
+    <div class="gallery-section">
+      <h2 class="gallery-title">Backdrop</h2>
+      <div class="gallery-container">
+        <div class="gallery-track" id="galleryTrackBackdrop">
+          <div class="gallery-item" style="background-image: url('image/backdrop1.jpg');" data-image="image/backdrop1.jpg">
+            <div class="image-title">Backdrop Design 1</div>
+          </div>
+          <div class="gallery-item" style="background-image: url('image/backdrop2.jpg');" data-image="image/backdrop2.jpg">
+            <div class="image-title">Backdrop Design 2</div>
+          </div>
+          <div class="gallery-item" style="background-image: url('image/backdrop3.jpg');" data-image="image/backdrop3.jpg">
+            <div class="image-title">Backdrop Design 3</div>
+          </div>
+          <div class="gallery-item" style="background-image: url('image/backdrop4.jpg');" data-image="image/backdrop4.jpg">
+            <div class="image-title">Backdrop Design 4</div>
+          </div>
+          <div class="gallery-item" style="background-image: url('image/backdrop5.jpg');" data-image="image/backdrop5.jpg">
+            <div class="image-title">Backdrop Design 5</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Web Gallery (Static) -->
+    <div class="gallery-section">
+      <h2 class="gallery-title">Web</h2>
+      <div class="gallery-container">
+        <div class="static-gallery">
+          <div class="web-item" id="web1">
+            <h3>Portfolio Website</h3>
+            <p>Klik untuk melihat contoh portfolio website</p>
+          </div>
+          <div class="web-item" id="web2">
+            <h3>Company Profile</h3>
+            <p>Klik untuk melihat contoh company profile</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Image Modal -->
+  <div class="image-modal" id="imageModal">
+    <button class="close-modal" id="closeModal">&times;</button>
+    <img src="" alt="Selected Project" class="modal-image" id="modalImage">
+  </div>
+
+  <script>
+    // Initialize variables
+    const scrollSpeeds = {
+      poster: -1,
+      infografis: 1,
+      logo: -1,
+      baju: 1,
+      backdrop: -1
+    };
+    
+    const scrollPositions = {
+      poster: 0,
+      infografis: 0,
+      logo: 0,
+      baju: 0,
+      backdrop: 0
+    };
+    
+    let animationId;
+    const galleryTracks = {
+      poster: document.getElementById('galleryTrackPoster'),
+      infografis: document.getElementById('galleryTrackInfografis'),
+      logo: document.getElementById('galleryTrackLogo'),
+      baju: document.getElementById('galleryTrackBaju'),
+      backdrop: document.getElementById('galleryTrackBackdrop')
+    };
+    
+    // Image titles data
+    const imageTitles = {
+      poster: ["Poster Design 1", "Poster Design 2", "Poster Design 3", "Poster Design 4", "Poster Design 5"],
+      infografis: ["Infographic 1", "Infographic 2", "Infographic 3", "Infographic 4", "Infographic 5"],
+      logo: ["Logo Design 1", "Logo Design 2", "Logo Design 3", "Logo Design 4", "Logo Design 5"],
+      baju: ["T-Shirt Design 1", "T-Shirt Design 2", "T-Shirt Design 3", "T-Shirt Design 4", "T-Shirt Design 5"],
+      backdrop: ["Backdrop Design 1", "Backdrop Design 2", "Backdrop Design 3", "Backdrop Design 4", "Backdrop Design 5"]
+    };
+    
+    // Modal elements
+    const imageModal = document.getElementById('imageModal');
+    const modalImage = document.getElementById('modalImage');
+    const closeModal = document.getElementById('closeModal');
+    
+    // Web items
+    const web1 = document.getElementById('web1');
+    const web2 = document.getElementById('web2');
+    
+    // Improved auto-scroll animation with perfect seamless infinite scrolling
+    function autoScroll() {
+      Object.keys(galleryTracks).forEach(gallery => {
+        const track = galleryTracks[gallery];
+        const items = track.querySelectorAll('.gallery-item');
+        const firstItem = items[0];
+        
+        if (!firstItem) return;
+        
+        const itemWidth = firstItem.offsetWidth + 20; // width + gap
+        const trackWidth = itemWidth * items.length;
+        
+        scrollPositions[gallery] += scrollSpeeds[gallery];
+        
+        // For infografis and baju galleries with extended items
+        if (gallery === 'infografis' || gallery === 'baju') {
+          if (scrollPositions[gallery] > 0) {
+            scrollPositions[gallery] -= itemWidth * (items.length / 2 - 1);
+          } else if (scrollPositions[gallery] < -itemWidth * (items.length / 2)) {
+            scrollPositions[gallery] += itemWidth * (items.length / 2 - 1);
+          }
+        } else {
+          // For other galleries
+          if (Math.abs(scrollPositions[gallery]) >= itemWidth * 5) {
+            scrollPositions[gallery] = 0;
+            track.style.transition = 'none';
+            track.style.transform = `translateX(${scrollPositions[gallery]}px)`;
+            void track.offsetWidth;
+            track.style.transition = 'transform 0.5s linear';
+          }
+        }
+        
+        track.style.transform = `translateX(${scrollPositions[gallery]}px)`;
+      });
+      
+      animationId = requestAnimationFrame(autoScroll);
+    }
+    
+    // Setup galleries with auto-scrolling
+    function setupGalleries() {
+      Object.keys(galleryTracks).forEach(gallery => {
+        const track = galleryTracks[gallery];
+        const items = track.querySelectorAll('.gallery-item');
+        
+        // Special setup for infografis and baju galleries
+        if (gallery === 'infografis' || gallery === 'baju') {
+          // Already has extended items in HTML
+          scrollPositions[gallery] = 0;
+        } else {
+          // Duplicate items for other galleries
+          Array.from(items).forEach((item, index) => {
+            const clone = item.cloneNode(true);
+            track.appendChild(clone);
+          });
+        }
+        
+        track.style.transform = `translateX(0px)`;
+      });
+      
+      // Add click event to each gallery item
+      document.querySelectorAll('.gallery-item').forEach(item => {
+        item.addEventListener('click', function() {
+          const imageUrl = this.getAttribute('data-image');
+          modalImage.src = imageUrl;
+          imageModal.classList.add('active');
+          stopAutoScroll();
+        });
+      });
+      
+      // Web item click handlers
+      web1.addEventListener('click', () => {
+        window.open('https://example-portfolio-website.com', '_blank');
+      });
+      
+      web2.addEventListener('click', () => {
+        window.open('https://example-company-profile.com', '_blank');
+      });
+      
+      // Start auto-scrolling
+      startAutoScroll();
+    }
+    
+    function startAutoScroll() {
+      if (!animationId) {
+        autoScroll();
+      }
+    }
+    
+    function stopAutoScroll() {
+      if (animationId) {
+        cancelAnimationFrame(animationId);
+        animationId = null;
+      }
+    }
+    
+    // Close modal and resume scrolling
+    closeModal.addEventListener('click', () => {
+      imageModal.classList.remove('active');
+      startAutoScroll();
+    });
+    
+    // Close modal when clicking outside image
+    imageModal.addEventListener('click', (e) => {
+      if (e.target === imageModal) {
+        imageModal.classList.remove('active');
+        startAutoScroll();
+      }
+    });
+    
+    // Cursor and navigation effects
+    const cursorLight = document.getElementById('cursorLight');
+    document.addEventListener('mousemove', (e) => {
+      document.documentElement.style.setProperty('--cursor-x', `${e.clientX}px`);
+      document.documentElement.style.setProperty('--cursor-y', `${e.clientY}px`);
+    });
+
+    const navLinks = document.querySelectorAll('nav a');
+    const indicator = document.getElementById('indicator');
+    const menuToggle = document.getElementById('menuToggle');
+    const navMenu = document.getElementById('navMenu');
+    const pageTransition = document.getElementById('pageTransition');
+
+    function updateIndicator(target) {
+      if (window.innerWidth > 768) {
+        const rect = target.getBoundingClientRect();
+        const center = rect.left + rect.width / 2 - 45;
+        const topPosition = rect.top - 55;
+        
+        indicator.style.left = `${center}px`;
+        indicator.style.top = `${topPosition}px`;
+        indicator.style.display = 'block';
+        indicator.style.opacity = '1';
+      }
+    }
+
+    menuToggle.addEventListener('click', () => {
+      menuToggle.classList.toggle('active');
+      navMenu.classList.toggle('active');
+    });
+
+    function handleNavClick(e) {
+      const targetUrl = this.getAttribute('href');
+      
+      if (targetUrl === 'project.html' && window.location.pathname.endsWith('project.html')) {
+        e.preventDefault();
+        navLinks.forEach(l => l.classList.remove('active'));
+        this.classList.add('active');
+        updateIndicator(this);
+        return;
+      }
+      
+      if (!window.location.pathname.endsWith(targetUrl)) {
+        e.preventDefault();
+        pageTransition.style.transform = 'scaleY(1)';
+        pageTransition.style.transformOrigin = 'top';
+        
+        setTimeout(() => {
+          window.location.href = targetUrl;
+        }, 600);
+      }
+    }
+
+    navLinks.forEach(link => {
+      link.addEventListener('mouseenter', () => {
+        updateIndicator(link);
+      });
+
+      link.addEventListener('mouseleave', () => {
+        const activeLink = document.querySelector('nav a.active');
+        if (activeLink) updateIndicator(activeLink);
+      });
+
+      link.addEventListener('click', handleNavClick);
+    });
+
+    // Initialize page
+    function initializePage() {
+      document.querySelector('.logo-container').style.opacity = '1';
+      document.querySelector('.logo-container').style.transform = 'translateY(0)';
+      document.querySelector('nav').style.opacity = '1';
+      document.querySelector('nav').style.transform = 'translateY(0)';
+      document.querySelector('.content-wrapper').classList.add('animated');
+      
+      setTimeout(() => {
+        const activeLink = document.querySelector('nav a.active');
+        if (activeLink) updateIndicator(activeLink);
+      }, 100);
+
+      if (window.innerWidth <= 768) {
+        document.getElementById('menuToggle').style.opacity = '1';
+      }
+      
+      // Setup galleries with a slight delay to ensure all elements are rendered
+      setTimeout(() => {
+        setupGalleries();
+      }, 100);
+      
+      setTimeout(initializeIndicator, 300);
+    }
+
+    function initializeIndicator() {
+      if (window.innerWidth > 768) {
+        const activeLink = document.querySelector('nav a.active');
+        if (activeLink) {
+          updateIndicator(activeLink);
+          setTimeout(() => {
+            indicator.style.opacity = '1';
+            updateIndicator(activeLink);
+          }, 50);
+        }
+      } else {
+        indicator.style.display = 'none';
+      }
+    }
+
+    window.addEventListener('load', initializePage);
+
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 768) {
+        const activeLink = document.querySelector('nav a.active');
+        if (activeLink) updateIndicator(activeLink);
+        navMenu.classList.remove('active');
+        menuToggle.classList.remove('active');
+      } else {
+        indicator.style.display = 'none';
+      }
+    });
+  </script>
+</body>
+</html>

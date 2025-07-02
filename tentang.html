@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About</title>
+  <style>
+    @font-face {
+      font-family: 'Stella';
+      src: url('font/Stella Demo.ttf') format('truetype');
+    }
+    @font-face {
+      font-family: 'Brother';
+      src: url('font/Brother DEMO.ttf') format('truetype');
+    }
+    @font-face {
+      font-family: 'New Sun Playful';
+      src: url('font/New Sun Regular.ttf') format('truetype');
+    }
+    @font-face {
+      font-family: 'Blackbone';
+      src: url('font/Blackbone.otf') format('opentype');
+    }
+    @font-face {
+      font-family: 'Glacial';
+      src: url('font/GlacialIndifference-Regular.otf') format('opentype');
+    }
+
+    :root {
+      --cursor-x: 50%;
+      --cursor-y: 50%;
+      --transition-duration: 0.5s;
+      --gold-color: #FFD700;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      background: #0f172a;
+      font-family: 'Brother', sans-serif;
+      overflow-x: hidden;
+      color: #fff;
+      padding: 40px;
+      position: relative;
+      cursor: none;
+    }
+
+    .cursor-light {
+      position: fixed;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(
+        circle at center,
+        rgba(72, 73, 232, 0.15) 0%,
+        transparent 70%
+      );
+      border-radius: 50%;
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      left: var(--cursor-x);
+      top: var(--cursor-y);
+      z-index: -1;
+      transition: transform 0.1s ease-out;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(
+        circle at center,
+        rgba(72, 73, 232, 0.05) 0%,
+        transparent 70%
+      );
+      z-index: -2;
+      pointer-events: none;
+      border-radius: 50%;
+    }
+    
+    .logo-container {
+      position: absolute;
+      top: -15px;
+      left: 15px;
+      z-index: 11;
+      opacity: 0;
+      transform: translateY(-30px);
+      transition: all var(--transition-duration) ease-out;
+    }
+    
+    .logo {
+      width: 180px;
+      height: auto;
+      transition: transform 0.3s ease;
+    }
+
+    .logo:hover {
+      transform: scale(1.05);
+    }
+
+    nav {
+      position: absolute;
+      top: 60px;
+      right: 50px;
+      padding: 0;
+      display: flex;
+      gap: 15px;
+      font-family: 'New Sun Playful';
+      font-size: 1.6rem;
+      background: transparent;
+      z-index: 10;
+      opacity: 0;
+      transform: translateY(-30px);
+      transition: all var(--transition-duration) ease-out 0.2s;
+    }
+    
+    nav a {
+      color: #ffffff;
+      text-decoration: none;
+      position: relative;
+      padding: 8px 15px;
+      transition: all 0.3s ease;
+    }
+
+    nav a.active {
+      color: var(--gold-color);
+    }
+
+    nav a:hover {
+      color: var(--gold-color);
+    }
+
+    nav a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      width: 0;
+      height: 2px;
+      background: var(--gold-color);
+      transition: all 0.3s ease;
+      transform: translateX(-50%);
+    }
+
+    nav a:hover::after,
+    nav a.active::after {
+      width: 70%;
+    }
+    
+    .indicator {
+      position: absolute;
+      width: 90px;
+      height: 90px;
+      background: url('image/navigasi.png') no-repeat center center;
+      background-size: contain;
+      transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      z-index: 9;
+      pointer-events: none;
+      transform: rotate(0deg);
+      opacity: 0;
+    }
+    
+    .content-wrapper {
+      position: absolute;
+      top: 180px;
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 8;
+      padding: 0 80px;
+    }
+    
+    .text-content {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      width: 100%;
+      max-width: 600px;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.8s ease-out 0.3s;
+      margin-left: 40px;
+    }
+
+    .content-wrapper.animated .text-content {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .about-content {
+      color: #fff;
+      width: 100%;
+    }
+
+    .about-title {
+      font-family: 'Blackbone';
+      font-size: 5rem;
+      color: var(--gold-color);
+      margin-bottom: -5px;
+      transform: rotate(-5deg);
+      display: inline-block;
+      line-height: 1;
+      transition: all 0.5s ease-out;
+      transform-origin: left center;
+    }
+
+    .about-description {
+      font-family: 'Glacial';
+      font-size: 1.2rem;
+      line-height: 1.8;
+      text-align: justify;
+      margin-bottom: 40px;
+      transition: all 0.5s ease-out 0.2s;
+    }
+
+    .word {
+      display: inline;
+      margin-right: 4px;
+      opacity: 0.3;
+      transition: opacity 0.3s ease;
+      white-space: normal;   /* penting agar bisa wrap */
+    }
+
+    .word.highlight {
+      opacity: 1;
+    }
+
+    .skills-title {
+      font-family: 'Blackbone';
+      font-size: 4.0rem;
+      color: var(--gold-color);
+      margin-bottom: 20px;
+      transform: rotate(-3deg);
+      display: inline-block;
+      transition: all 0.5s ease-out 0.4s;
+    }
+
+    .skills-container {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-bottom: 30px;
+      transition: all 0.5s ease-out 0.6s;
+    }
+
+    .skill-image {
+      width: 80px;
+      height: 80px;
+      object-fit: contain;
+      transition: transform 0.5s ease, opacity 0.5s ease, filter 0.3s ease;
+      filter: grayscale(100%) brightness(0.8);
+      cursor: pointer;
+    }
+
+    .skill-image:hover {
+      transform: scale(1.15) rotate(5deg);
+      filter: grayscale(0%) brightness(1.2);
+      z-index: 5;
+    }
+
+    .skill-tooltip {
+      position: absolute;
+      background: rgba(15, 23, 42, 0.9);
+      color: white;
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      font-family: 'Glacial';
+      pointer-events: none;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: all 0.3s ease;
+      z-index: 10;
+      border: 1px solid var(--gold-color);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Animasi untuk mobile */
+    @media (max-width: 768px) {
+      .skill-image {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.6s ease;
+      }
+      
+      .skill-image.animate-in {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      
+      .skill-image.animate-out {
+        opacity: 0;
+        transform: translateY(-30px);
+      }
+      
+      .skill-image:hover {
+        transform: scale(1.1) translateY(0);
+      }
+    }
+
+    .about-image {
+      width: 500px;
+      max-width: 40%;
+      transform: translateX(80px);
+      opacity: 0;
+      transition: all 0.8s ease-out 0.5s;
+      animation: float 6s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% {
+        transform: translateX(80px) translateY(0);
+      }
+      50% {
+        transform: translateX(80px) translateY(-20px);
+      }
+    }
+
+    .content-wrapper.animated .about-image {
+      opacity: 1;
+    }
+
+    .page-transition {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #0f172a;
+      z-index: 9998;
+      transform: scaleY(0);
+      transform-origin: bottom;
+      transition: transform 0.6s cubic-bezier(0.65, 0, 0.35, 1);
+    }
+
+    .menu-toggle {
+      display: none;
+      position: absolute;
+      top: 30px;
+      right: 20px;
+      width: 40px;
+      height: 40px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      z-index: 12;
+      opacity: 0;
+      transition: opacity var(--transition-duration) ease-out 0.4s;
+    }
+
+    .menu-toggle span {
+      display: block;
+      width: 100%;
+      height: 3px;
+      background: #fff;
+      margin: 6px 0;
+      transition: all 0.3s cubic-bezier(0.77, 0.2, 0.05, 1);
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding: 20px;
+        height: auto;
+        min-height: 100vh;
+        overflow-y: auto;
+        cursor: none;
+      }
+      
+      .cursor-light {
+        display: block;
+        width: 300px;
+        height: 300px;
+      }
+      
+      .logo-container {
+        top: 15px;
+        left: 15px;
+      }
+      
+      .logo {
+        width: 100px;
+      }
+      
+      nav {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 70%;
+        height: 100vh;
+        background: #0f172a;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 30px;
+        transition: right 0.5s cubic-bezier(0.77, 0.2, 0.05, 1);
+        z-index: 11;
+        padding-top: 80px;
+        opacity: 1;
+        transform: none;
+        border-left: 2px solid var(--gold-color);
+      }
+
+      nav.active {
+        right: 0;
+        box-shadow: -5px 0 15px rgba(0, 0, 0, 0.3);
+      }
+      
+      nav a {
+        font-size: 1.5rem;
+        padding: 10px 20px;
+        width: 100%;
+        text-align: center;
+      }
+      
+      nav a.active {
+        color: var(--gold-color);
+        font-weight: bold;
+      }
+      
+      .indicator {
+        display: none;
+      }
+
+      .menu-toggle {
+        display: block;
+        opacity: 1;
+      }
+
+      .menu-toggle.active span:nth-child(1) {
+        transform: rotate(45deg) translate(6px, 6px);
+        background: var(--gold-color);
+      }
+
+      .menu-toggle.active span:nth-child(2) {
+        opacity: 0;
+      }
+
+      .menu-toggle.active span:nth-child(3) {
+        transform: rotate(-45deg) translate(6px, -6px);
+        background: var(--gold-color);
+      }
+
+      .content-wrapper {
+        position: relative;
+        top: 120px;
+        left: 0;
+        right: 0;
+        padding: 0 15px;
+        flex-direction: column;
+        gap: 30px;
+        align-items: center;
+      }
+
+      .text-content {
+        order: 2;
+        margin: 0;
+        width: 100%;
+        max-width: 100%;
+        align-items: center;
+        text-align: center;
+        padding: 0 10px;
+      }
+
+      .about-title {
+        font-size: 2.5rem;
+        text-align: center;
+        transform: rotate(-3deg);
+        margin-bottom: 15px;
+        width: 100%;
+      }
+
+      .about-description {
+        text-align: center;
+        font-size: 1.1rem;
+        line-height: 1.6;
+        margin: 0 auto 30px;
+        width: 100%;
+        max-width: 100%;
+        padding: 0;
+      }
+
+      .skills-title {
+        font-size: 2rem;
+        text-align: center;
+        transform: rotate(-2deg);
+        margin-bottom: 15px;
+        width: 100%;
+      }
+
+      .skills-container {
+        justify-content: center;
+        gap: 15px;
+        margin-bottom: 20px;
+        width: 100%;
+      }
+
+      .about-image {
+        order: 1;
+        width: 100%;
+        max-width: 280px;
+        margin: 0 auto 30px;
+        transform: none !important;
+        opacity: 1;
+        animation: floatMobile 6s ease-in-out infinite;
+      }
+
+      @keyframes floatMobile {
+        0%, 100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-15px);
+        }
+      }
+
+      body::before {
+        width: 300px;
+        height: 300px;
+      }
+
+      .skill-image {
+        filter: grayscale(0%) brightness(1);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .about-title {
+        font-size: 2rem;
+      }
+
+      .about-description {
+        font-size: 1rem;
+      }
+      
+      .about-image {
+        max-width: 240px;
+      }
+
+      .skill-image {
+        width: 60px;
+        height: 60px;
+      }
+    }
+
+    @media (max-width: 768px) and (orientation: landscape) {
+      .content-wrapper {
+        top: 100px;
+        flex-direction: row;
+        align-items: flex-start;
+      }
+      
+      .about-image {
+        max-width: 200px;
+        margin-right: 20px;
+        margin-bottom: 0;
+      }
+      
+      .text-content {
+        text-align: left;
+        align-items: flex-start;
+      }
+      
+      .about-description {
+        text-align: left;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-transition" id="pageTransition"></div>
+  <div class="cursor-light" id="cursorLight"></div>
+  <div class="indicator" id="indicator"></div>
+  
+  <div class="logo-container">
+    <img src="image/logo.png" alt="Logo" class="logo">
+  </div>
+  
+  <button class="menu-toggle" id="menuToggle">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+
+  <nav id="navMenu">
+    <a href="index.html">Home</a>
+    <a href="tentang.html" class="active">About</a>
+    <a href="project.html">Project</a>
+    <a href="organisasi.html">Organization</a>
+    <a href="#">Blog</a>
+  </nav>
+
+  <div class="content-wrapper">
+    <img src="image/tentang.png" alt="About Image" class="about-image">
+    <div class="text-content">
+      <div class="about-content">
+        <h1 class="about-title">Hi, I'm Vemas</h1>
+        <p class="about-description" id="aboutDescription"></p>
+        <h2 class="skills-title">Skills</h2>
+        <div class="skills-container" id="skillsContainer">
+          <img src="image/skills1.png" alt="Skill 1" class="skill-image" data-tooltip="Adobe Illustrator">
+          <img src="image/skills2.png" alt="Skill 2" class="skill-image" data-tooltip="CANVA">
+          <img src="image/skills6.png" alt="Skill 6" class="skill-image" data-tooltip="HTML">
+          <img src="image/skills3.png" alt="Skill 3" class="skill-image" data-tooltip="Java Script">
+          <img src="image/skills4.png" alt="Skill 4" class="skill-image" data-tooltip="CSS">
+          <img src="image/skills5.png" alt="Skill 5" class="skill-image" data-tooltip="Public Speaking">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="skill-tooltip" id="skillTooltip"></div>
+
+  <script>
+    const aboutText = "Saya adalah seorang mahasiswa Sistem Informasi yang juga aktif sebagai desainer grafis dan fasilitator kegiatan anak muda. Saya memiliki ketertarikan besar pada teknologi, desain, dan pengembangan diri, serta senang membagikan ide lewat karya visual dan proyek kolaboratif. Melalui berbagai pengalaman di lapangan, saya terbiasa bekerja dalam tim, berbicara di depan publik, dan mengelola program kreatif dengan semangat dan tanggung jawab. Bagi saya, setiap tantangan adalah peluang untuk tumbuh dan memberi dampak nyata.";
+
+    function animateText() {
+      const container = document.getElementById('aboutDescription');
+      const words = aboutText.split(' ');
+      
+      container.innerHTML = '';
+      
+      words.forEach((word, index) => {
+        const span = document.createElement('span');
+        span.className = 'word';
+        span.textContent = word + ' ';
+        container.appendChild(span);
+        
+        setTimeout(() => {
+          span.classList.add('highlight');
+        }, index * 100);
+      });
+    }
+
+    function animateSkills(shouldAnimateIn = true) {
+      const skills = document.querySelectorAll('.skill-image');
+      skills.forEach((skill, index) => {
+        skill.classList.remove('animate-in', 'animate-out');
+        setTimeout(() => {
+          if (shouldAnimateIn) {
+            skill.classList.add('animate-in');
+          } else {
+            skill.classList.add('animate-out');
+          }
+        }, index * 100);
+      });
+    }
+
+    function handleScroll() {
+      const skillsContainer = document.getElementById('skillsContainer');
+      const rect = skillsContainer.getBoundingClientRect();
+      const isVisible = rect.top < window.innerHeight * 0.8 && rect.bottom >= 0;
+      
+      if (isVisible) {
+        animateSkills(true);
+      } else if (rect.bottom < 0 || rect.top > window.innerHeight) {
+        animateSkills(false);
+      }
+    }
+
+    function animatePageElements() {
+      document.querySelector('.logo-container').style.opacity = '1';
+      document.querySelector('.logo-container').style.transform = 'translateY(0)';
+      document.querySelector('nav').style.opacity = '1';
+      document.querySelector('nav').style.transform = 'translateY(0)';
+      document.querySelector('.content-wrapper').classList.add('animated');
+      
+      if (window.innerWidth <= 768) {
+        document.getElementById('menuToggle').style.opacity = '1';
+        window.addEventListener('scroll', handleScroll);
+        // Trigger initial check
+        handleScroll();
+      } else {
+        // Animasi desktop
+        const skills = document.querySelectorAll('.skill-image');
+        skills.forEach(skill => {
+          skill.style.opacity = '1';
+          skill.style.transform = 'translateY(0)';
+        });
+      }
+      
+      setTimeout(initializeIndicator, 300);
+      animateText();
+    }
+
+    function initializeIndicator() {
+      if (window.innerWidth > 768) {
+        const activeLink = document.querySelector('nav a.active');
+        if (activeLink) {
+          updateIndicator(activeLink);
+          setTimeout(() => {
+            indicator.style.opacity = '1';
+            updateIndicator(activeLink);
+          }, 50);
+        }
+      } else {
+        indicator.style.display = 'none';
+      }
+    }
+
+    const cursorLight = document.getElementById('cursorLight');
+    document.addEventListener('mousemove', (e) => {
+      document.documentElement.style.setProperty('--cursor-x', `${e.clientX}px`);
+      document.documentElement.style.setProperty('--cursor-y', `${e.clientY}px`);
+    });
+
+    const navLinks = document.querySelectorAll('nav a');
+    const indicator = document.getElementById('indicator');
+    const menuToggle = document.getElementById('menuToggle');
+    const navMenu = document.getElementById('navMenu');
+    const pageTransition = document.getElementById('pageTransition');
+    const skillTooltip = document.getElementById('skillTooltip');
+
+    // Skill hover effect and tooltip
+    const skillImages = document.querySelectorAll('.skill-image');
+    skillImages.forEach(skill => {
+      skill.addEventListener('mouseenter', (e) => {
+        if (window.innerWidth > 768) {
+          // Show tooltip
+          const tooltipText = skill.getAttribute('data-tooltip');
+          skillTooltip.textContent = tooltipText;
+          skillTooltip.style.opacity = '1';
+          skillTooltip.style.transform = 'translateY(0)';
+          
+          // Position tooltip
+          const rect = skill.getBoundingClientRect();
+          skillTooltip.style.left = `${rect.left + rect.width/2 - skillTooltip.offsetWidth/2}px`;
+          skillTooltip.style.top = `${rect.top - 40}px`;
+        }
+      });
+      
+      skill.addEventListener('mouseleave', () => {
+        if (window.innerWidth > 768) {
+          skillTooltip.style.opacity = '0';
+          skillTooltip.style.transform = 'translateY(10px)';
+        }
+      });
+      
+      skill.addEventListener('click', () => {
+        if (window.innerWidth <= 768) {
+          // Toggle active state on mobile
+          skill.classList.toggle('active');
+          if (skill.classList.contains('active')) {
+            skill.style.transform = 'scale(1.2) rotate(5deg)';
+            skill.style.filter = 'grayscale(0%) brightness(1.2)';
+          } else {
+            skill.style.transform = 'scale(1)';
+            skill.style.filter = 'grayscale(0%) brightness(1)';
+          }
+        }
+      });
+    });
+
+    function updateIndicator(target) {
+      if (window.innerWidth > 768) {
+        const rect = target.getBoundingClientRect();
+        const center = rect.left + rect.width / 2 - 45;
+        const topPosition = rect.top - 55;
+        
+        indicator.style.left = `${center}px`;
+        indicator.style.top = `${topPosition}px`;
+        indicator.style.display = 'block';
+        indicator.style.opacity = '1';
+      }
+    }
+
+    menuToggle.addEventListener('click', () => {
+      menuToggle.classList.toggle('active');
+      navMenu.classList.toggle('active');
+    });
+
+    function handleNavClick(e) {
+      const targetUrl = this.getAttribute('href');
+      
+      if (targetUrl === 'tentang.html' && (window.location.pathname.endsWith('tentang.html'))) {
+        e.preventDefault();
+        navLinks.forEach(l => l.classList.remove('active'));
+        this.classList.add('active');
+        updateIndicator(this);
+        return;
+      }
+      
+      if (!window.location.pathname.endsWith(targetUrl)) {
+        e.preventDefault();
+        pageTransition.style.transform = 'scaleY(1)';
+        pageTransition.style.transformOrigin = 'top';
+        
+        setTimeout(() => {
+          window.location.href = targetUrl;
+        }, 600);
+      }
+    }
+
+    navLinks.forEach(link => {
+      link.addEventListener('mouseenter', () => {
+        updateIndicator(link);
+      });
+
+      link.addEventListener('mouseleave', () => {
+        const activeLink = document.querySelector('nav a.active');
+        if (activeLink) updateIndicator(activeLink);
+      });
+
+      link.addEventListener('click', handleNavClick);
+    });
+
+    window.addEventListener('load', () => {
+      animatePageElements();
+    });
+
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 768) {
+        const activeLink = document.querySelector('nav a.active');
+        if (activeLink) updateIndicator(activeLink);
+        navMenu.classList.remove('active');
+        menuToggle.classList.remove('active');
+        window.removeEventListener('scroll', handleScroll);
+        // Reset skill animations for desktop
+        const skills = document.querySelectorAll('.skill-image');
+        skills.forEach(skill => {
+          skill.style.opacity = '1';
+          skill.style.transform = 'translateY(0)';
+        });
+      } else {
+        indicator.style.display = 'none';
+        window.addEventListener('scroll', handleScroll);
+        handleScroll();
+      }
+    });
+  </script>
+</body>
+</html>
